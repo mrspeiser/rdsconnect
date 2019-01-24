@@ -26,7 +26,7 @@ def checkProcedures():
     procedures.append({"tableDrop":table_drop.dropTable("ProceduresCheck")})
     return procedures
     
-
+    
 def checkExistingTableNames(tableNames):
     configTableName=str(read_db_tablename_config())
     for name in tableNames:

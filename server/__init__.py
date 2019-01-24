@@ -76,7 +76,7 @@ def create_app(test_config=None):
 
     @app.route("/dropTable")
     def removeTable():
-        remaining=table_drop.dropTable('messages')
+        remaining=table_drop.dropTable('ProceduresCheck')
         return json.dumps(remaining, ensure_ascii=False)
     
     @app.route("/createNewColumn")
