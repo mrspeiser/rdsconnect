@@ -4,7 +4,7 @@ def readConfigFile(filename='config.ini'):
     parser=ConfigParser()
     parser.read(filename)
 
-def read_db_config(filename='server/config/config.ini', section='mysql'):
+def read_db_config(filename='server/config/config.ini', section='rds'):
     # create parser and read ini configuration file
     parser=ConfigParser()
     out=parser.read(filename)

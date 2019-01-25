@@ -1,5 +1,4 @@
 import mysql.connector
-import server.db.connect as rds
 import server.db.table_operations.table_read as table_read
 from server.utilities.decorators import rdsConnect
 

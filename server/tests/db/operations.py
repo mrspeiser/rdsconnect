@@ -1,6 +1,5 @@
 from configparser import ConfigParser
 
-import server.db.connect as conn
 import server.db.table_operations.table_create as table_create
 import server.db.table_operations.table_read as table_read
 import server.db.table_operations.table_drop as table_drop
@@ -16,7 +15,7 @@ def initialize():
 
 def checkProcedures():
     procedures=[]
-    procedures.append(table_create.createTable("ProceduresCheck"))
+    procedures.append(table_create.createDefaultTable("ProceduresCheck"))
     procedures.append(table_read.tableNames())
     procedures.append({"insertedData":insert.insertData(tempData.getTempData(), "ProceduresCheck")})
     procedures.append({"queryAll":retreive.getall("ProceduresCheck")})
@@ -26,7 +25,13 @@ def checkProcedures():
     procedures.append({"tableDrop":table_drop.dropTable("ProceduresCheck")})
     return procedures
     
-    
+def checkDbOperations():
+    try:
+        checkProcedures()
+        return True
+    except Exception:
+        return False
+
 def checkExistingTableNames(tableNames):
     configTableName=str(read_db_tablename_config())
     for name in tableNames:

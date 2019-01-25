@@ -1,5 +1,4 @@
 import mysql.connector
-import server.db.connect as rds
 from server.utilities.decorators import rdsConnect
 
 @rdsConnect

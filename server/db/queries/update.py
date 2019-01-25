@@ -9,7 +9,6 @@ def updateRowTest(mycursor, data, rowId="1", table="ProceduresCheck"):
         where="WHERE id = "+rowId
 
         sql="UPDATE "+table+" "+updateString+" "+where
-        print(str(sql))
         mycursor.execute(sql)
 
         return data
