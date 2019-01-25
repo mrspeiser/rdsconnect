@@ -19,6 +19,7 @@ import server.tests.db.operations as operations
 import server.utilities.datetimes as datetimes
 import server.utilities.startup as startup
 import server.utilities.shutdown as shutdown
+import server.utilities.keys as token
 
 def create_app(test_config=None):
     #create and configure app
@@ -62,7 +63,12 @@ def create_app(test_config=None):
         results=operations.checkProcedures()
         return json.dumps(results, default=datetimes.myconverter, ensure_ascii=False)
 
-
+    @app.route("/rds/api_token", methods=['GET'])
+    def generateToken():
+        if validateRequest.validTokenRequest(request) == True:
+            return json.dumps({"api_key":token.configureKey()})
+        else:
+            return json.dumps({"Response":400, "Error": "Invalid Request for Token"})
 
     # @app.route("/testConfig")
     # def configTest():

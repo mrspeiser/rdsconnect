@@ -34,6 +34,9 @@ def hasValidGet(request, table):
 
     return True
 
+def validTokenRequest(request):
+    pass
+
 def tableExists(tableName):
     tableNames=getTableNames()
     tableNames=tableNames["tableNames"]
