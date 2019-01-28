@@ -2,16 +2,16 @@ from configparser import ConfigParser
 import server.config.config_read as config_read
 from server.db.table_operations.table_read import tableNames as getTableNames
 
-def hasValid(request,table):
+def hasValidPost(request,table):
+    key=request.headers["Authorization"]
 
     if tableExists(table) != True:
         return tableExists(table)
 
-    if baseUrlValid(request.base_url) != True:
-        return baseUrlValid(request.base_url)
-
-    if validAuthFrom(request.authorization) != True:
-        return validAuthFrom(request.authorization)
+    # if baseUrlValid(request.base_url) != True:
+    #     return baseUrlValid(request.base_url)
+    if validAuthFrom(key) != True:
+        return validAuthFrom(key)
 
     if validHeaders(request.headers) != True:
         return validHeaders(request.headers)
@@ -28,14 +28,15 @@ def hasValid(request,table):
     return True
 
 def hasValidGet(request, table):
+    key=request.headers["Authorization"]
+    
+    if validAuthFrom(key) != True:
+        return "Error invalid Authorization"
 
     if tableExists(table) != True:
         return tableExists(table)
 
     return True
-
-def validTokenRequest(request):
-    pass
 
 def tableExists(tableName):
     tableNames=getTableNames()
@@ -44,14 +45,19 @@ def tableExists(tableName):
         return True
     return "Invalid table name"
 
+def validAuthFrom(authValue):
+    key='';
+    with open('.key', 'r') as k:
+        key = k.readline()
+    print("Authorization: {} - Key: {}".format(authValue, key))
+
+    if "Bearer "+key != authValue:
+        return "Error Unauthorized"
+    return True
+
 def baseUrlValid(base_url):
     # nothing to check yet
     return True
-
-def validAuthFrom(authorization):
-    # nothing to check yet
-    return True
-
 
 def validHeaders(headers):
     # checking for valid Host property
@@ -78,11 +84,9 @@ def requestSecure(request_secure_boolean):
             return "Request is insecure, please use https"
     return True
 
-
 def acceptUserAgent(user_agent):
     # checking user agent, always allow for now
     return True
-
 
 def nonForwardedAccess(forwarded_list):
     # don't allow forwarded requests

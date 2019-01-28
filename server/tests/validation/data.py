@@ -24,8 +24,7 @@ def hasValidIncoming(data):
    
 
 def matchesKeys(json):
-    print('test')
-    print(json)
+
     numKeys=len(json.keys())
 
     if numKeys > 7:

@@ -35,8 +35,9 @@ def create_app(test_config=None):
 
     @app.route("/rds/post/<string:table>", methods=['POST'])
     def postData(table):
-        if validateRequest.hasValid(request,table) == True:
+        if validateRequest.hasValidPost(request,table) == True:
             data=request.get_json()
+            print("data: {}".format(data))
             data["user_agent"]=str(request.user_agent)
             if validateData.hasValidIncoming(data) == True:
                 print("fully validated {}".format(data))
@@ -48,7 +49,7 @@ def create_app(test_config=None):
             else:
                 return json.dumps({"Response":202,"Error":validateData.hasValidIncoming(data)})
         else:
-            return json.dumps({"Response":400, "Error":validateRequest.hasValid(request,table)})
+            return json.dumps({"Response":400, "Error":validateRequest.hasValidPost(request,table)})
     
     @app.route("/rds/get/<string:table>", methods=['GET'])
     def getData(table):
