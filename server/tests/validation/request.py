@@ -68,7 +68,7 @@ def validHeaders(headers):
         return True
         
 def checkHost(requestHost):
-    hosts=config_read.getValidHosts()
+    hosts=config_read.read_config_value('validhosts', 'security')
     if requestHost in hosts:
         return True
     else:
@@ -76,7 +76,7 @@ def checkHost(requestHost):
 
 def requestSecure(request_secure_boolean):
     # checking config file if allowinsecure is set to False
-    allowInsecure = config_read.allowInsecure("security", "allowinsecure")
+    allowInsecure = config_read.read_config_value("allowinsecure", "security")
     if allowInsecure == False:
         if request_secure_boolean == True:
             return True

@@ -1,9 +1,10 @@
 import re
+from server.config.config_read import read_config_value
 
-def hasValidIncoming(data):
+def hasValidIncoming(data, table):
 
-    if matchesKeys(data) != True:
-        return matchesKeys(data)
+    if matchesKeys(data, table) != True:
+        return matchesKeys(data,table)
     
     if hasMinimum(data) != True:
         return hasMinimum(data)
@@ -23,14 +24,14 @@ def hasValidIncoming(data):
     return True
    
 
-def matchesKeys(json):
-
+def matchesKeys(json, tableName):
     numKeys=len(json.keys())
-
-    if numKeys > 7:
+    maxKeys=read_config_value('maxkeys', tableName)
+    if numKeys > maxKeys:
         return {"Error":"too many keys provided in data"}
 
-    requiredKeys=['first_name','last_name','phone_primary','email','body','location_data','user_agent']
+    requiredKeys=read_config_value('requiredclientfields', tableName)
+    requiredKeys=requiredKeys.split(',')
     for key in json:
         if key in requiredKeys:
             requiredKeys.remove(key)

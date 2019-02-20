@@ -11,10 +11,9 @@ def configInit():
         'database':''}
     
     config['security'] = {
-        'allowAny':'True', 
+        'allowAny':'False', 
         'allowInsecure':'True', 
-        'validHosts':'127.0.0.1:5000,127.0.0.1.4500', 
-        'Authorization':'rdsPass'}
+        'validHosts':'127.0.0.1:5000,127.0.0.1.4500'}
 
     with open('server/config/config2.ini', 'w') as configfile:
         config.write(configfile)

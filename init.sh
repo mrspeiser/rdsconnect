@@ -11,5 +11,5 @@ if [[ $test == 0 ]]; then
     export FLASK_ENV=development
     flask run
 else
-    echo "ERROR CONNECTING TO RDS SERVER"
+    echo "ERROR CONNECTING TO RDS SERVER, CHECK THE RDS CONFIG VARIABLES"
 fi

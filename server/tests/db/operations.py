@@ -9,9 +9,12 @@ import server.db.queries.update as update
 import server.db.queries.delete as delete
 import server.utilities.tmpdata as tempData
 
-
-def initialize():
-    pass
+def checkDbOperations():
+    try:
+        checkProcedures()
+        return True
+    except Exception:
+        return False
 
 def checkProcedures():
     procedures=[]
@@ -25,13 +28,6 @@ def checkProcedures():
     procedures.append({"tableDrop":table_drop.dropTable("ProceduresCheck")})
     return procedures
     
-def checkDbOperations():
-    try:
-        checkProcedures()
-        return True
-    except Exception:
-        return False
-
 def checkExistingTableNames(tableNames):
     configTableName=str(read_db_tablename_config())
     for name in tableNames:

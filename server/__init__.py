@@ -37,10 +37,10 @@ def create_app(test_config=None):
     def postData(table):
         if validateRequest.hasValidPost(request,table) == True:
             data=request.get_json()
-            print("data: {}".format(data))
+            # print("data: {}".format(data))
             data["user_agent"]=str(request.user_agent)
             if validateData.hasValidIncoming(data) == True:
-                print("fully validated {}".format(data))
+                # print("fully validated {}".format(data))
                 data=insert.insertData(data,"messages")
                 if "Error" in data:
                     return json.dumps({"Response":500,"Error":data})
@@ -64,12 +64,12 @@ def create_app(test_config=None):
         results=operations.checkProcedures()
         return json.dumps(results, default=datetimes.myconverter, ensure_ascii=False)
 
-    @app.route("/rds/api_token", methods=['GET'])
-    def generateToken():
-        if validateRequest.validTokenRequest(request) == True:
-            return json.dumps({"api_key":token.configureKey()})
-        else:
-            return json.dumps({"Response":400, "Error": "Invalid Request for Token"})
+    # @app.route("/rds/api_token", methods=['GET'])
+    # def generateToken():
+    #     if validateRequest.validTokenRequest(request) == True:
+    #         return json.dumps({"api_key":token.configureKey()})
+    #     else:
+    #         return json.dumps({"Response":400, "Error": "Invalid Request for Token"})
 
     # @app.route("/testConfig")
     # def configTest():

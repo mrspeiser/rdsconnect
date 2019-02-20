@@ -1,8 +1,9 @@
 import mysql.connector
 from server.utilities.decorators import rdsConnect
+from server.config.config_write import write_db_config_section, write_db_config_key_value
 
 @rdsConnect
-def createTable(mycursor, tableName, properties):
+def createTable(mycursor, tableName, properties, required_client_fields, maxkeys):
     try:
         mycursor.execute(
             """CREATE TABLE {0} 
@@ -10,6 +11,9 @@ def createTable(mycursor, tableName, properties):
                 {1}
             )""".format(tableName, properties)
         )
+        write_db_config_section(tableName)
+        write_db_config_key_value(tableName, 'requiredclientfields', required_client_fields)
+        write_db_config_key_value(tableName, 'maxkeys', maxkeys)
         mycursor.close()
         return {"CreateTable":"Created Successfully"}
     except mysql.connector.Error as err:
@@ -18,7 +22,7 @@ def createTable(mycursor, tableName, properties):
         mycursor.close()
             
 @rdsConnect
-def createDefaultTable(mycursor, tableName="messages"):
+def createDefaultTable(mycursor, tableName="default"):
     try:
         mycursor.execute(
             """CREATE TABLE {0}
@@ -34,6 +38,9 @@ def createDefaultTable(mycursor, tableName="messages"):
                 received_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             )""".format(tableName)
         )
+        write_db_config_section(tableName)
+        write_db_config_key_value(tableName, 'requiredclientfields', 'first_name,last_name,email')
+        write_db_config_key_value(tableName, 'maxkeys', '7')
         mycursor.close()
         return {"CreateTable":"Created Successfully"}
     except mysql.connector.Error as err:

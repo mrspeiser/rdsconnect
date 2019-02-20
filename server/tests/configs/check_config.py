@@ -15,7 +15,6 @@ def checkConfigFile(file='server/config/config.ini'):
     try:
         parser=ConfigParser()
         out=parser.read(file)
-
         emptyFields={}
         defaultSections=['rds', 'security']
 
